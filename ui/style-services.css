@@ -98,8 +98,13 @@ section{
   background-size: cover;
   height: calc(100vh - 80px);
 }
-.wrapper > div{
-  background: #AED0E0;
-  padding: 1em;
-
+.container{
+    text-align: center;
+    margin-top: 200px;
+}
+.btn {
+    background: #86BEDA;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
 }
