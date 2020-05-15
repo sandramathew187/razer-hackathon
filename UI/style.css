@@ -98,3 +98,8 @@ section{
   background-size: cover;
   height: calc(100vh - 80px);
 }
+.wrapper > div{
+  background: #AED0E0;
+  padding: 1em;
+
+}
