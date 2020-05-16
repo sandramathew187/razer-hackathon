@@ -93,18 +93,20 @@ a.active,a:hover{
     left: 0;
   }
 }
-section{
-  background: url(bg1.jpg) no-repeat;
-  background-size: cover;
-  height: calc(100vh - 80px);
-}
 .container{
     text-align: center;
     margin-top: 200px;
 }
 .btn {
-    background: #86BEDA;
     padding: 10px 20px;
     font-size: 20px;
     font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    margin: 10px;
+}
+.btn1, .btn2{
+    color: #FFFFFF;
+}
+.btn1:hover, .btn2:hover{
+    color: #86BEDA;
 }
