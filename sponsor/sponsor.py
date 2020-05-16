@@ -11,7 +11,7 @@ import json
 
 app = Flask(__name__, template_folder='../templates')
 # app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/booking'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/sponsor'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -22,17 +22,32 @@ class Sponsor(db.Model):
     __tablename__ = 'Sponsor'
 
     companyname = db.Column(db.String(128), nullable=False)
-    companyid = db.Column(db.integer(), nullable=False)
-    depositid = db.Column(db.integer(), primary_key=True)
+    companyid = db.Column(db.Integer, nullable=False)
+    depositid = db.Column(db.String(128), primary_key=True)
+    percentagerevenue = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, companyid, companyname, depositid):
-        self.companyid = companyid
+    def __init__(self, companyname, companyid, depositid, percentagerevenue):
         self.companyname = companyname
+        self.companyid = companyid
         self.depositid = depositid
+        self.percentagerevenue = percentagerevenue
 
     def json(self):
-        return {'Company Name': self.companyname, 'Company ID': self.companyid, 'depositid': self.depositid}
+        return {'companyname': self.companyname, 'companyid': self.companyid, 'depositid': self.depositid, 'percentagerevenue': self.percentagerevenue}
 
+@app.route('/sponsor/new', methods=["POST"])
+def signupassponsor():
+    data = request.get_json()
+    sponsor = Sponsor(data["companyname"], data["depositid"], data["companyid"], data["percentagerevenue"])
+
+    try:
+        db.session.add(sponsor)
+        db.session.commit()
+    except:
+        print("Unexpected error:", sys.exc_info()[0])
+        return jsonify({"message": "An error occurred."}), 500
+
+    return jsonify(sponsor.json()), 201 
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
